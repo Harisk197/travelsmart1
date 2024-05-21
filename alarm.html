@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alarm Page - Travel Wakeup</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+  <!-- Leaflet Routing Machine CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css">
+  <style>
+    #map {
+      height: 400px;
+      width: 100%;
+      margin-top: 20px;
+    }
+    input[type="number"] {
+      width: 100%;
+      padding: 15px;
+      margin: 10px 0;
+      box-sizing: border-box;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>lets go</h1>
+    <form id="locationForm">
+      <input type="text" id="origin" placeholder="Origin" required>
+      <input type="text" id="destination" placeholder="Destination" required>
+      <input type="number" id="distance" placeholder="Distance Before Alarm (km)" required>
+      <button type="submit">Set Alarm</button>
+    </form>
+    <p id="status">Tracking your location...</p>
+    <div id="map"></div>
+  </div>
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <!-- Leaflet Geocoding Plugin -->
+  <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+  <!-- Leaflet Routing Machine JS -->
+  <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      // Initialize the map
+      const map = L.map('map').setView([51.505, -0.09], 13);
+
+      // Add OpenStreetMap tiles to the map
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(map);
+
+      // Geocoder instance
+      const geocoder = L.Control.Geocoder.nominatim();
+
+      // Handle form submission
+      document.getElementById('locationForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const origin = document.getElementById('origin').value;
+        const destination = document.getElementById('destination').value;
+        const distanceThreshold = parseFloat(document.getElementById('distance').value);
+
+        // Geocode origin and destination
+        geocoder.geocode(origin, function(originResults) {
+          if (originResults.length > 0) {
+            const originLatLng = originResults[0].center;
+            L.marker(originLatLng).addTo(map).bindPopup('Origin: ' + origin).openPopup();
+
+            geocoder.geocode(destination, function(destinationResults) {
+              if (destinationResults.length > 0) {
+                const destinationLatLng = destinationResults[0].center;
+                L.marker(destinationLatLng).addTo(map).bindPopup('Destination: ' + destination).openPopup();
+
+                // Add routing control to the map
+                L.Routing.control({
+                  waypoints: [
+                    L.latLng(originLatLng), // Origin coordinates
+                    L.latLng(destinationLatLng) // Destination coordinates
+                  ],
+                  routeWhileDragging: true
+                }).addTo(map);
+
+                // Fit map bounds to include both origin and destination
+                const bounds = L.latLngBounds([originLatLng, destinationLatLng]);
+                map.fitBounds(bounds);
+
+                // Hide form and show status message
+                document.getElementById('locationForm').style.display = 'none';
+                document.getElementById('status').innerText = 'Alarm set. Tracking your location...';
+              } else {
+                alert('Destination location not found.');
+              }
+            });
+          } else {
+            alert('Origin location not found.');
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

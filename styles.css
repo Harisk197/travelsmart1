@@ -1,0 +1,151 @@
+/* Reset CSS */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #e6e6fa; /* Light purple background color */
+}
+
+.container {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: transparent; /* Transparent background */
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* Added shadow */
+  text-align: center; /* Center align text */
+}
+
+h1 {
+  margin-bottom: 20px;
+  color: #800080; /* Purple color */
+}
+
+p {
+  color: #8a2be2; /* Blue Violet color */
+  margin-bottom: 20px;
+}
+
+form {
+  margin-bottom: 20px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+button {
+  margin-bottom: 10px;
+  padding: 12px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #f8f9fa;
+  font-size: 16px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  background-color: transparent; /* Transparent background */
+}
+
+button {
+  background-color: #800080; /* Purple color */
+  color: #fff;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #6a0dad; /* Darker purple color */
+}
+
+button:active {
+  background-color: #4b0082; /* Indigo color */
+}
+
+.guest-button {
+  background-color: #8a2be2; /* Blue Violet color */
+}
+
+.guest-button:hover {
+  background-color: #6e2091; /* Darker Blue Violet color */
+}
+
+.guest-button:active {
+  background-color: #4c1765; /* Darker Blue Violet color */
+}
+
+a {
+  display: block;
+  margin-bottom: 10px;
+  color: #800080; /* Purple color */
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.graphic {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  display: block;
+}
+
+.maintenance-message {
+  color: #ff0000;
+  text-align: center;
+  margin-top: 10px;
+  display: none;
+}
+
+.warning {
+  color: #ff0000;
+  text-align: center;
+  margin-top: 10px;
+}
+
+/* Custom select dropdown */
+.custom-select select {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  font-family: inherit;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #f8f9fa; /* Light gray background */
+  background-image: none; /* Remove default arrow */
+  -webkit-appearance: none; /* Remove default arrow in Chrome/Safari */
+  -moz-appearance: none; /* Remove default arrow in Firefox */
+  appearance: none; /* Remove default arrow */
+  cursor: pointer;
+}
+
+.custom-select select:focus {
+  outline: none;
+  border-color: #007bff; /* Blue border color on focus */
+}
+
+/* Style the arrow inside the select element */
+.custom-select::after {
+  content: '\25BC'; /* Unicode character for down arrow */
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+  color: #555;
+  pointer-events: none;
+}
+
+/* Hide default select arrow in IE */
+.custom-select select::-ms-expand {
+  display: none;
+}
+
+/* Hover and focus styles */
+.custom-select select:hover,
+.custom-select select:focus {
+  background-color: #e9ecef; /* Light gray background on hover/focus */
+}

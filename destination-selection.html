@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alarm Settings - Travel Wakeup</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Alarm Settings</h1>
+    <form id="alarmForm">
+      <div class="custom-select">
+        <select id="alarmSound" required>
+          <option value="" disabled selected>Select Alarm Sound</option>
+          <option value="sounds/alarm1.mp3">Alarm Sound 1</option>
+          <option value="sounds/alarm2.mp3">Alarm Sound 2</option>
+          <option value="sounds/alarm3.mp3">Alarm Sound 3</option>
+          <option value="custom">Custom Sound</option>
+        </select>
+      </div>
+      <!-- Custom sound file input -->
+      <input type="file" id="customSoundFile" accept="audio/*" style="display:none;">
+      <button type="submit">Activate Alarm</button>
+    </form>
+    <a href="index.html">Back to Homepage</a>
+  </div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <!-- Leaflet Geocoding Plugin -->
+  <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const alarmSoundSelect = document.getElementById('alarmSound');
+      const customSoundFileInput = document.getElementById('customSoundFile');
+
+      alarmSoundSelect.addEventListener('change', function() {
+        if (this.value === 'custom') {
+          customSoundFileInput.click(); // Trigger file input click event
+        }
+      });
+
+      customSoundFileInput.addEventListener('change', function() {
+        // Set the selected file name as the label for the file input
+        if (this.files.length > 0) {
+          const fileName = this.files[0].name;
+          alarmSoundSelect.innerHTML = `<option value="${fileName}" selected>${fileName}</option>`;
+        }
+      });
+
+      document.getElementById('alarmForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const alarmSound = alarmSoundSelect.value;
+
+        console.log("Form submitted");
+        console.log("Alarm sound:", alarmSound);
+
+        // Redirect to alarm page with query parameter
+        window.location.href = `alarm.html?alarmSound=${encodeURIComponent(alarmSound)}`;
+      });
+    });
+  </script>
+</body>
+</html>
